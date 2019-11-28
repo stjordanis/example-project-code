@@ -1,6 +1,6 @@
 import neptune
 
-neptune.init('kamil/example-project')
+neptune.init('<USERNAME>/example-project')
 neptune.create_experiment(name='bare_minimal_example')
 
 for i in range(100):
