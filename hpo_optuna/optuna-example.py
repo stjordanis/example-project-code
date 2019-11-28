@@ -139,7 +139,7 @@ class_names = ['T-shirt/top', 'Trouser', 'Pullover', 'Dress', 'Coat',
                    'Sandal', 'Shirt', 'Sneaker', 'Bag', 'Ankle boot']
 
 # select project
-neptune.init('kamil/sandbox')
+neptune.init('kamil/example-project')
 
 # make optuna study
 study = optuna.create_study(direction='maximize')
