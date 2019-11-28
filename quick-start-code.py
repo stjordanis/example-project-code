@@ -2,7 +2,7 @@ import neptune
 import numpy as np
 
 # select project
-neptune.init('kamil/example-project')
+neptune.init('<USERNAME>/example-project')
 
 # define parameters
 PARAMS = {'magic_factor': 0.5,
