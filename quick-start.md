@@ -1,33 +1,38 @@
-# Get started
+# Quick start
 **Installation**
 
 `pip install neptune-client`
 
 **Run script**
 
-Copy snippet below to "get-started.py" and run this file
+Copy snippet below to "quick-start.py" and run this file
 ```
 import neptune
 import numpy as np
 
 # select project
-neptune.init('USERNAME/example-project',
+neptune.init('<USERNAME>/example-project',
              api_token='<NEPTUNE_API_TOKEN>')
 
+# define parameters
+PARAMS = {'magic_factor': 0.5,
+          'n_iterations': 117}
+
 # create experiment
-neptune.create_experiment(name='quick-start-example')
+neptune.create_experiment(name='quick_start_example',
+                          params=PARAMS)
 
 # log some metrics
-for i in range(1, 117):
+for i in range(1, PARAMS['n_iterations']):
     neptune.log_metric('iteration', i)
-    neptune.log_metric('loss', 1/i**0.5)
-    neptune.log_text('magic values', 'magic value {}'.format(0.95*i**2))
+    neptune.log_metric('loss', PARAMS['magic_factor']/i**0.5)
+    neptune.log_text('magic_values', 'magic value {}'.format(0.95*i**2))
 
-# log property (key:value pairs)
-neptune.set_property('n_iterations', 117)
+# add tag to the experiment
+neptune.append_tag('quick_start')
 
 # log some images
-for j in range(0, 5):
+for j in range(5):
     array = np.random.rand(10, 10, 3)*255
     array = np.repeat(array, 30, 0)
     array = np.repeat(array, 30, 1)
