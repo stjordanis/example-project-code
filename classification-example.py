@@ -28,14 +28,12 @@ def lr_scheduler(epoch):
 neptune.init('USERNAME/example-project')
 
 # define parameters
-PARAMS = {'batch_size': 32,
+PARAMS = {'batch_size': 64,
           'n_epochs': 100,
           'shuffle': True,
-          'activation': 'relu',
+          'activation': 'elu',
           'dense_units': 128,
           'learning_rate': 0.0015,
-          'optimizer_beta_1': 0.9,
-          'optimizer_beta_2': 0.999,
           'early_stopping': 10,
           'optimizer': 'Adam',
           }
@@ -85,14 +83,10 @@ with neptune.create_experiment(name='classification_example',
     if PARAMS['optimizer'] == 'Adam':
         optimizer = tf.keras.optimizers.Adam(
             learning_rate=PARAMS['learning_rate'],
-            beta_1=PARAMS['optimizer_beta_1'],
-            beta_2=PARAMS['optimizer_beta_2'],
         )
     elif PARAMS['optimizer'] == 'Nadam':
         optimizer = tf.keras.optimizers.Nadam(
             learning_rate=PARAMS['learning_rate'],
-            beta_1=PARAMS['optimizer_beta_1'],
-            beta_2=PARAMS['optimizer_beta_2'],
         )
     elif PARAMS['optimizer'] == 'SGD':
         optimizer = tf.keras.optimizers.SGD(

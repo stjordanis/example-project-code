@@ -62,14 +62,10 @@ def train_evaluate(params):
     if params['optimizer'] == 'Adam':
         optimizer = tf.keras.optimizers.Adam(
             learning_rate=params['learning_rate'],
-            beta_1=params['optimizer_beta_1'],
-            beta_2=params['optimizer_beta_2'],
             )
     elif params['optimizer'] == 'Nadam':
         optimizer = tf.keras.optimizers.Nadam(
             learning_rate=params['learning_rate'],
-            beta_1=params['optimizer_beta_1'],
-            beta_2=params['optimizer_beta_2'],
             )
 
     model.compile(optimizer=optimizer,
@@ -124,8 +120,6 @@ def objective(trial):
 # static params
 STATIC_PARAMS = {'n_epochs': 100,
                  'shuffle': True,
-                 'optimizer_beta_1': 0.9,
-                 'optimizer_beta_2': 0.999,
                  'early_stopping': 10,
                  }
 
