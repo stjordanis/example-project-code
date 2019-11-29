@@ -32,6 +32,7 @@ PARAMS = {'batch_size': 32,
           'n_epochs': 100,
           'shuffle': True,
           'activation': 'relu',
+          'dense_units': 128,
           'learning_rate': 0.0015,
           'optimizer_beta_1': 0.9,
           'optimizer_beta_2': 0.999,
@@ -41,9 +42,8 @@ PARAMS = {'batch_size': 32,
 
 # create experiment
 with neptune.create_experiment(name='classification_example',
-                               tags=['classification', 'tf-2'],
+                               tags=['classification', 'tf_2'],
                                upload_source_files=['classification-example.py', 'requirements.txt'],
-                               description='scheduler cyclic, new setup',
                                params=PARAMS):
     # dataset
     fashion_mnist = keras.datasets.fashion_mnist
@@ -76,9 +76,9 @@ with neptune.create_experiment(name='classification_example',
     # model
     model = keras.Sequential([
         keras.layers.Flatten(input_shape=(28, 28)),
-        keras.layers.Dense(128, activation=PARAMS['activation']),
-        keras.layers.Dense(128, activation=PARAMS['activation']),
-        keras.layers.Dense(128, activation=PARAMS['activation']),
+        keras.layers.Dense(PARAMS['dense_units'], activation=PARAMS['activation']),
+        keras.layers.Dense(PARAMS['dense_units'], activation=PARAMS['activation']),
+        keras.layers.Dense(PARAMS['dense_units'], activation=PARAMS['activation']),
         keras.layers.Dense(10, activation='softmax')
     ])
 
@@ -88,7 +88,13 @@ with neptune.create_experiment(name='classification_example',
             beta_1=PARAMS['optimizer_beta_1'],
             beta_2=PARAMS['optimizer_beta_2'],
         )
-    else:
+    elif PARAMS['optimizer'] == 'Nadam':
+        optimizer = tf.keras.optimizers.Nadam(
+            learning_rate=PARAMS['learning_rate'],
+            beta_1=PARAMS['optimizer_beta_1'],
+            beta_2=PARAMS['optimizer_beta_2'],
+        )
+    elif PARAMS['optimizer'] == 'SGD':
         optimizer = tf.keras.optimizers.SGD(
             learning_rate=PARAMS['learning_rate'],
         )
