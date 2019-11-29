@@ -15,10 +15,10 @@ def log_data(logs):
 
 
 def lr_scheduler(epoch):
-    if epoch < 10:
+    if epoch < 25:
         new_lr = PARAMS['learning_rate']
     else:
-        new_lr = PARAMS['learning_rate'] * np.exp(0.1 * ((epoch//50)*50 - epoch))
+        new_lr = PARAMS['learning_rate'] * np.exp(0.1 * ((epoch//25)*25 - epoch))
 
     neptune.log_metric('learning_rate', new_lr)
     return new_lr
