@@ -34,7 +34,7 @@ PARAMS = {'batch_size': 64,
           'activation': 'elu',
           'dense_units': 128,
           'learning_rate': 0.001,
-          'early_stopping': 10,
+          'early_stopping': 15,
           'optimizer': 'Nadam',
           }
 
