@@ -15,10 +15,10 @@ def log_data(logs):
 
 
 def lr_scheduler(epoch):
-    if epoch < 25:
+    if epoch < 20:
         new_lr = PARAMS['learning_rate']
     else:
-        new_lr = PARAMS['learning_rate'] * np.exp(0.1 * ((epoch//25)*25 - epoch))
+        new_lr = PARAMS['learning_rate'] * np.exp(0.05 * (20 - epoch))
 
     neptune.log_metric('learning_rate', new_lr)
     return new_lr
@@ -33,6 +33,7 @@ PARAMS = {'batch_size': 64,
           'shuffle': True,
           'activation': 'elu',
           'dense_units': 128,
+          'dropout': 0.2,
           'learning_rate': 0.001,
           'early_stopping': 10,
           'optimizer': 'Adam',
@@ -75,8 +76,11 @@ with neptune.create_experiment(name='classification_example',
     model = keras.Sequential([
         keras.layers.Flatten(input_shape=(28, 28)),
         keras.layers.Dense(PARAMS['dense_units'], activation=PARAMS['activation']),
+        keras.layers.Dropout(PARAMS['dropout']),
         keras.layers.Dense(PARAMS['dense_units'], activation=PARAMS['activation']),
+        keras.layers.Dropout(PARAMS['dropout']),
         keras.layers.Dense(PARAMS['dense_units'], activation=PARAMS['activation']),
+        keras.layers.Dropout(PARAMS['dropout']),
         keras.layers.Dense(10, activation='softmax')
     ])
 
