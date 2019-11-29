@@ -35,7 +35,7 @@ PARAMS = {'batch_size': 64,
           'dense_units': 128,
           'learning_rate': 0.001,
           'early_stopping': 10,
-          'optimizer': 'Adam',
+          'optimizer': 'Nadam',
           }
 
 # create experiment
