@@ -17,10 +17,10 @@ def log_data(logs):
 
 def train_evaluate(params):
     def lr_scheduler(epoch):
-        if epoch < 10:
+        if epoch < 20:
             new_lr = params['learning_rate']
         else:
-            new_lr = params['learning_rate'] * np.exp(0.1 * ((epoch // 10) * 10 - epoch))
+            new_lr = params['learning_rate'] * np.exp(0.05 * (20 - epoch))
 
         neptune.log_metric('learning_rate', new_lr)
         return new_lr
@@ -52,21 +52,27 @@ def train_evaluate(params):
     # model
     model = keras.Sequential([
         keras.layers.Flatten(input_shape=(28, 28)),
-        keras.layers.Dense(params['hidden_layer_size'], activation=params['activation']),
-        keras.layers.Dense(params['hidden_layer_size'], activation=params['activation']),
-        keras.layers.Dense(params['hidden_layer_size'], activation=params['activation']),
+        keras.layers.Dense(params['dense_units'], activation=params['activation']),
+        keras.layers.Dropout(params['dropout']),
+        keras.layers.Dense(params['dense_units'], activation=params['activation']),
+        keras.layers.Dropout(params['dropout']),
+        keras.layers.Dense(params['dense_units'], activation=params['activation']),
+        keras.layers.Dropout(params['dropout']),
         keras.layers.Dense(10, activation='softmax')
     ])
 
-    # optimizer
     if params['optimizer'] == 'Adam':
         optimizer = tf.keras.optimizers.Adam(
             learning_rate=params['learning_rate'],
-            )
+        )
     elif params['optimizer'] == 'Nadam':
         optimizer = tf.keras.optimizers.Nadam(
             learning_rate=params['learning_rate'],
-            )
+        )
+    elif params['optimizer'] == 'SGD':
+        optimizer = tf.keras.optimizers.SGD(
+            learning_rate=params['learning_rate'],
+        )
 
     model.compile(optimizer=optimizer,
                   loss='sparse_categorical_crossentropy',
