@@ -12,7 +12,6 @@ from tensorflow import keras
 
 def log_data(logs):
     neptune.log_metric('epoch_accuracy', logs['accuracy'])
-    neptune.log_metric('epoch_categorical_crossentropy', logs['categorical_crossentropy'])
     neptune.log_metric('epoch_loss', logs['loss'])
 
 
@@ -75,7 +74,7 @@ def train_evaluate(params):
 
     model.compile(optimizer=optimizer,
                   loss='sparse_categorical_crossentropy',
-                  metrics=['accuracy', 'categorical_crossentropy'])
+                  metrics=['accuracy'])
 
     # log model summary
     model.summary(print_fn=lambda x: neptune.log_text('model_summary', x))
@@ -139,7 +138,7 @@ class_names = ['T-shirt/top', 'Trouser', 'Pullover', 'Dress', 'Coat',
                    'Sandal', 'Shirt', 'Sneaker', 'Bag', 'Ankle boot']
 
 # select project
-neptune.init('kamil/example-project')
+neptune.init('USERNAME/example-project')
 
 # make optuna study
 study = optuna.create_study(direction='maximize')
@@ -149,6 +148,6 @@ study.optimize(objective, n_trials=100)
 neptune.create_experiment(name='optuna_summary',
                           tags=['optuna', 'optuna-summary'],
                           upload_source_files=['optuna-example.py', 'requirements.txt'])
-neptune.log_metric('best_score', study.best_value)
-neptune.set_property('best_parameters', study.best_params)
+neptune.log_metric('optuna_best_score', study.best_value)
+neptune.set_property('optuna_best_parameters', study.best_params)
 neptune.stop()

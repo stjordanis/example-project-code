@@ -11,7 +11,6 @@ from tensorflow import keras
 
 def log_data(logs):
     neptune.log_metric('epoch_accuracy', logs['accuracy'])
-    neptune.log_metric('epoch_categorical_crossentropy', logs['categorical_crossentropy'])
     neptune.log_metric('epoch_loss', logs['loss'])
 
 
@@ -26,7 +25,7 @@ def lr_scheduler(epoch):
 
 
 # select project
-neptune.init('kamil/example-project')
+neptune.init('USERNAME/example-project')
 
 # define parameters
 PARAMS = {'batch_size': 32,
@@ -37,6 +36,7 @@ PARAMS = {'batch_size': 32,
           'optimizer_beta_1': 0.9,
           'optimizer_beta_2': 0.999,
           'early_stopping': 10,
+          'optimizer': 'Adam',
           }
 
 # create experiment
@@ -82,18 +82,20 @@ with neptune.create_experiment(name='classification_example',
         keras.layers.Dense(10, activation='softmax')
     ])
 
-    # optimizer
-    neptune.set_property('optimizer', 'Adam')
-
-    optimizer = tf.keras.optimizers.Adam(
-        learning_rate=PARAMS['learning_rate'],
-        beta_1=PARAMS['optimizer_beta_1'],
-        beta_2=PARAMS['optimizer_beta_2'],
+    if PARAMS['optimizer'] == 'Adam':
+        optimizer = tf.keras.optimizers.Adam(
+            learning_rate=PARAMS['learning_rate'],
+            beta_1=PARAMS['optimizer_beta_1'],
+            beta_2=PARAMS['optimizer_beta_2'],
+        )
+    else:
+        optimizer = tf.keras.optimizers.SGD(
+            learning_rate=PARAMS['learning_rate'],
         )
 
     model.compile(optimizer=optimizer,
                   loss='sparse_categorical_crossentropy',
-                  metrics=['accuracy', 'categorical_crossentropy'])
+                  metrics=['accuracy'])
 
     # log model summary
     model.summary(print_fn=lambda x: neptune.log_text('model_summary', x))
