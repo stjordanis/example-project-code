@@ -142,7 +142,7 @@ class_names = ['T-shirt/top', 'Trouser', 'Pullover', 'Dress', 'Coat',
 neptune.init('USERNAME/example-project')
 
 # make optuna study
-study = optuna.create_study(direction='maximize')
+study = optuna.create_study(study_name='classification', direction='maximize', storage='sqlite:///classification.db')
 study.optimize(objective, n_trials=100)
 
 # run experiment that collects study visuals
@@ -151,4 +151,5 @@ neptune.create_experiment(name='optuna_summary',
                           upload_source_files=['optuna-example.py', 'requirements.txt'])
 neptune.log_metric('optuna_best_score', study.best_value)
 neptune.set_property('optuna_best_parameters', study.best_params)
+neptune.log_artifact('classification.db', 'classification.db')
 neptune.stop()
