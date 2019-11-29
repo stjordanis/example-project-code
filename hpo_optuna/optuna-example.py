@@ -116,8 +116,9 @@ def objective(trial):
     optuna_params = {'batch_size': trial.suggest_categorical('batch_size', [32, 64]),
                      'activation': trial.suggest_categorical('activation', ['relu', 'elu']),
                      'learning_rate': trial.suggest_loguniform('learning_rate', 0.0001, 0.1),
-                     'optimizer': trial.suggest_categorical('optimizer', ['Adam', 'Nadam'],),
-                     'hidden_layer_size': trial.suggest_categorical('hidden_layer_size', [16, 32, 64, 128]),
+                     'optimizer': trial.suggest_categorical('optimizer', ['Adam', 'Nadam', 'SGD']),
+                     'dense_units': trial.suggest_categorical('dense_units', [16, 32, 64, 128]),
+                     'dropout': trial.suggest_uniform('dropout', 0, 0.5),
                      }
     PARAMS = {**optuna_params, **STATIC_PARAMS}
     return train_evaluate(PARAMS)
@@ -135,7 +136,7 @@ fashion_mnist = keras.datasets.fashion_mnist
 train_images = train_images / 255.0
 test_images = test_images / 255.0
 class_names = ['T-shirt/top', 'Trouser', 'Pullover', 'Dress', 'Coat',
-                   'Sandal', 'Shirt', 'Sneaker', 'Bag', 'Ankle boot']
+               'Sandal', 'Shirt', 'Sneaker', 'Bag', 'Ankle boot']
 
 # select project
 neptune.init('USERNAME/example-project')
