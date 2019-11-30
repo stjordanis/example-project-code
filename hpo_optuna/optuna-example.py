@@ -48,6 +48,7 @@ def train_evaluate(params):
             plt.imshow(train_images[label_[0][i]], cmap=plt.cm.binary)
             plt.xlabel(class_names[j])
         neptune.log_image('example_images', plt.gcf())
+        plt.close('all')
 
     # model
     model = keras.Sequential([
@@ -142,7 +143,10 @@ class_names = ['T-shirt/top', 'Trouser', 'Pullover', 'Dress', 'Coat',
 neptune.init('USERNAME/example-project')
 
 # make optuna study
-study = optuna.create_study(study_name='classification', direction='maximize', storage='sqlite:///classification.db')
+study = optuna.create_study(study_name='classification',
+                            direction='maximize',
+                            storage='sqlite:///classification.db',
+                            load_if_exists=True)
 study.optimize(objective, n_trials=100)
 
 # run experiment that collects study visuals
