@@ -25,6 +25,9 @@ def train_evaluate(params):
         neptune.log_metric('learning_rate', new_lr)
         return new_lr
 
+    # clear session
+    tf.keras.backend.clear_session()
+
     # create experiment
     neptune.create_experiment(name='optuna_example',
                               tags=['optuna'],
