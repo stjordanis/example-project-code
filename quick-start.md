@@ -39,7 +39,7 @@ for j in range(5):
 
 neptune.stop()
 ```
-Go to https://ui.neptune.ml/<USERNAME>/example-project/experiments to check results!
+Go to https://ui.neptune.ai/<USERNAME>/example-project/experiments to check results!
 
 Your experiment is at the top of the table. This experiment becomes a part of the **example project**.
-Go to the Wiki section that will help you get started: https://ui.neptune.ml/<USERNAME>/example-project/wiki
+Go to the Wiki section that will help you get started: https://ui.neptune.ai/<USERNAME>/example-project/wiki
