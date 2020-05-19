@@ -14,7 +14,7 @@ from src.model import get_model
 neptune.init('USERNAME/example-project')
 
 # Prepare params
-with open('src/parameters.yaml', 'r') as f:
+with open('parameters.yaml', 'r') as f:
     all_params = AttrDict(yaml.safe_load(f))
     model_params = all_params.model
     training_params = all_params.training
