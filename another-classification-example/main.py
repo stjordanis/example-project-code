@@ -6,7 +6,7 @@ import tensorflow as tf
 import yaml
 from attrdict import AttrDict
 
-from src.ml_utils import log_model_weights, log_epoch_data, log_batch_data, lr_scheduler, log_images_sample, \
+from src.ml_utils import log_model_weights, log_epoch_data, lr_scheduler, log_images_sample, \
     log_visualized_model
 from src.model import get_model
 
@@ -61,8 +61,7 @@ model.fit(train_images, train_labels,
           shuffle=training_params.shuffle,
           callbacks=[
               tf.keras.callbacks.LambdaCallback(
-                  on_epoch_end=lambda epoch, logs: log_epoch_data(logs, exp),
-                  on_batch_end=lambda epoch, logs: log_batch_data(logs, exp)),
+                  on_epoch_end=lambda epoch, logs: log_epoch_data(logs, exp)),
               tf.keras.callbacks.LambdaCallback(
                   on_epoch_end=lambda epoch, logs:
                       log_model_weights(model, epoch, logs, exp) if epoch % training_params.save_every == 0 else False),

@@ -11,11 +11,6 @@ def log_epoch_data(logs, npt):
     npt.log_metric('epoch/loss', logs['loss'])
 
 
-def log_batch_data(logs, npt):
-    npt.log_metric('batch/accuracy', logs['accuracy'])
-    npt.log_metric('batch/loss', logs['loss'])
-
-
 def log_visualized_model(model, npt):
     with tempfile.TemporaryDirectory(dir='.') as d:
         img_name = os.path.join(d, 'model_visualization.png')
