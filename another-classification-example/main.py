@@ -9,6 +9,7 @@ from attrdict import AttrDict
 from src.ml_utils import log_model_weights, log_epoch_data, lr_scheduler, log_images_sample, \
     log_visualized_model
 from src.model import get_model
+from src.vis_utils import log_interactive_visualisations
 
 # Select project
 neptune.init('USERNAME/example-project')
@@ -22,7 +23,7 @@ with open('parameters.yaml', 'r') as f:
 
 # Create experiment
 exp = neptune.create_experiment(name='another_classification',
-                                tags=['keras'],
+                                tags=['keras', 'vis'],
                                 upload_source_files=['**/*.py', 'parameters.yaml'],
                                 params=model_params + training_params + optim_params)
 
@@ -53,6 +54,9 @@ model.summary(print_fn=lambda x: exp.log_text('model_summary', x))
 
 # Log model visualization
 log_visualized_model(model, exp)
+
+# Log interactive visualizations
+log_interactive_visualisations()
 
 # Train model
 model.fit(train_images, train_labels,

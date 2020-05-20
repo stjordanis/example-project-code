@@ -2,17 +2,17 @@
 model:
   activation: elu
   dense_units: 128
-  dropout: 0.25
+  dropout: 0.37
 
 # Optimizer
 optim_params:
   optimizer: Adam # Nadam, SGD
-  init_learning_rate: 0.004
+  init_learning_rate: 0.005
 
 # Training
 training:
   batch_size: 64
-  early_stopping: 10
+  early_stopping: 20
   n_epochs: 100
   shuffle: True
   save_every: 20
