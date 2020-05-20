@@ -1,12 +1,12 @@
 # Model
 model:
-  activation: elu
+  activation: relu
   dense_units: 128
-  dropout: 0.37
+  dropout: 0.11
 
 # Optimizer
 optim_params:
-  optimizer: Adam # Nadam, SGD
+  optimizer: SGD # Adam, Nadam
   init_learning_rate: 0.005
 
 # Training

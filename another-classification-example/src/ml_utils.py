@@ -51,7 +51,7 @@ def lr_scheduler(epoch, lr, npt):
     if epoch < 20:
         new_lr = lr
     else:
-        new_lr = lr * np.exp(0.01 * (20 - epoch))
+        new_lr = lr * np.exp(0.005 * (20 - epoch))
     npt.log_metric('learning_rate', new_lr)
     return new_lr
 
