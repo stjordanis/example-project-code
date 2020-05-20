@@ -3,6 +3,8 @@ import tempfile
 
 import matplotlib.pyplot as plt
 import numpy as np
+import pandas as pd
+from neptunecontrib.api import log_table
 from tensorflow.keras.utils import plot_model
 
 
@@ -52,3 +54,8 @@ def lr_scheduler(epoch, lr, npt):
         new_lr = lr * np.exp(0.01 * (20 - epoch))
     npt.log_metric('learning_rate', new_lr)
     return new_lr
+
+
+def log_auxiliary_data_as_table():
+    iris_df = pd.read_csv('https://raw.githubusercontent.com/mwaskom/seaborn-data/master/iris.csv', nrows=100)
+    log_table('pandas_df', iris_df)

@@ -7,7 +7,7 @@ import yaml
 from attrdict import AttrDict
 
 from src.ml_utils import log_model_weights, log_epoch_data, lr_scheduler, log_images_sample, \
-    log_visualized_model
+    log_visualized_model, log_auxiliary_data_as_table
 from src.model import get_model
 from src.vis_utils import log_interactive_visualisations
 
@@ -42,6 +42,9 @@ class_names = ['T-shirt/top', 'Trouser', 'Pullover', 'Dress', 'Coat',
                'Sandal', 'Shirt', 'Sneaker', 'Bag', 'Ankle boot']
 
 exp.set_property('class_names', class_names)
+
+# Log auxiliary data as table
+log_auxiliary_data_as_table()
 
 # Log images sample for each class
 log_images_sample(class_names, train_labels, train_images, exp)
